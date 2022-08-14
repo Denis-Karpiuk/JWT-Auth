@@ -1,1 +1,3 @@
-# JWT-Auth!
+# JWT-Auth
+
+jwt auth app
