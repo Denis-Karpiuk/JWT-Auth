@@ -30,7 +30,7 @@ class UserService {
     }
 
     async activate(activationLink) {
-        const condidate = await UserModel.findOne({ email })
+        const condidate = await UserModel.findOne({ activationLink })
         if (!condidate) {
             throw ApiError.BadRequest('Пользователь с такой почтой уже существует')
         }
@@ -59,6 +59,22 @@ class UserService {
     async logout(refreshToken) {
         const token = await tokenService.removeToken(refreshToken)
         return token
+    }
+
+    async refresh(refreshToken) {
+        if (!refreshToken) {
+            throw ApiError.UnauthorizedError()
+        }
+        const userData = tokenService.validateRefreshToken(refreshToken)
+        const tokenFormDb = await tokenService.findToken(refreshToken)
+        if (!userData || !tokenFormDb) {
+            throw ApiError.UnauthorizedError()
+        }
+        const user = await UserModel.findById(userData.id)
+        const userDto = new UserDto(user)
+        const tokens = tokenService.generateTokens({ ...userDto })
+
+        await tokenService.saveToken(userDto.id, tokens.refreshToken)
     }
 }
 
