@@ -23,10 +23,6 @@ const start = async () => {
         })
         console.log('Соединение с базой данных установлено')
 
-        // const db = mongoose.db('Auth')
-        // const result = await db.command({ ping: 1 })
-        // console.log(result)
-
         // server
         app.listen(PORT, () => {
             console.log(`Server started on PORT = ${PORT}`)
