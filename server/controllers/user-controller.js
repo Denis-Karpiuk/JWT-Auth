@@ -35,12 +35,18 @@ class UserController {
             next(e)
         }
     }
+
     async logout(req, res, next) {
         try {
+            const { refreshToken } = req.cookies
+            const token = await userService.logout(refreshToken)
+            res.clearCookie('refreshToken')
+            return res.json(token)
         } catch (e) {
             next(e)
         }
     }
+
     async activate(req, res, next) {
         try {
             const activationLink = req.params.link
