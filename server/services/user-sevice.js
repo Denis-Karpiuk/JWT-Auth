@@ -4,6 +4,7 @@ const uuid = require('uuid')
 const mailService = require('./mail-sevice')
 const tokenService = require('./token-sevice')
 const UserDto = require('../dtos/user-dto')
+
 // services for user
 class UserService {
     async registration(email, password) {
