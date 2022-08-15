@@ -12,19 +12,19 @@ class UserController {
             })
             return res.json(userData)
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
     async login(req, res, next) {
         try {
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
     async logout(req, res, next) {
         try {
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
     async activate(req, res, next) {
@@ -33,20 +33,20 @@ class UserController {
             await userService.activate(activationLink)
             return res.redirect(process.env.CLIENT_URL)
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
     async refresh(req, res, next) {
         try {
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
     async getUsers(req, res, next) {
         try {
             res.json(['123', '456'])
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
 }
