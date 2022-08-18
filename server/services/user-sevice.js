@@ -34,8 +34,8 @@ class UserService {
         if (!condidate) {
             throw ApiError.BadRequest('Пользователь с такой почтой уже существует')
         }
-        user.isActivated = true
-        await user.save()
+        condidate.isActivated = true
+        await condidate.save()
     }
 
     async login(email, password) {
@@ -66,15 +66,15 @@ class UserService {
             throw ApiError.UnauthorizedError()
         }
         const userData = tokenService.validateRefreshToken(refreshToken)
-        const tokenFormDb = await tokenService.findToken(refreshToken)
-        if (!userData || !tokenFormDb) {
+        const tokenFromDB = await tokenService.findToken(refreshToken)
+        if (!userData || !tokenFromDB) {
             throw ApiError.UnauthorizedError()
         }
         const user = await UserModel.findById(userData.id)
         const userDto = new UserDto(user)
         const tokens = tokenService.generateTokens({ ...userDto })
-
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
+        return { ...tokens, user: userDto }
     }
 
     async getAllUsers() {
